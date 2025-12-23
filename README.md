@@ -102,7 +102,8 @@ no-as-a-service/
 ├── index.ts            # Bun API
 ├── rate-limiter.ts     # Rate limiter
 ├── reasons.json        # 1000+ universal rejection reasons
-├── package.json
+├── package.json        # Package configuration
+├── benchmarks/         # Benchmarking scripts and results
 ├── .devcontainer.json  # Dev Container setup
 └── README.md
 ```
