@@ -1,5 +1,5 @@
 {
-  "image": "docker.io/node:22-alpine",
+  "image": "oven/bun:alpine",
   "mounts": [
     "type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh"
   ],
