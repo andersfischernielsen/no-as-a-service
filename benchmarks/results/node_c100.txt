@@ -1,0 +1,13 @@
+Running 30s test @ http://localhost:4000/no
+  10 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.24ms    1.17ms  98.81ms   98.89%
+    Req/Sec     4.55k   246.54     8.95k    96.21%
+  Latency Distribution
+     50%    2.16ms
+     75%    2.21ms
+     90%    2.32ms
+     99%    3.24ms
+  1362057 requests in 30.10s, 399.17MB read
+Requests/sec:  45246.30
+Transfer/sec:     13.26MB
