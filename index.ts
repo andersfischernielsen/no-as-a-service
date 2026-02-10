@@ -21,3 +21,11 @@ const server = Bun.serve({
 });
 
 console.log(`No-as-a-Service is running on port ${server.port}`);
+
+const shutdown = () => {
+  server.stop();
+  process.exit(0);
+};
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);
