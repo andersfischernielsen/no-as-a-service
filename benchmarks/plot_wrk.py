@@ -9,7 +9,7 @@
 """Parse `wrk --latency` outputs and generate charts.
 
 Expected inputs (default):
-  results/bun_c<connections>.txt
+  results/pure_node_c<connections>.txt
   results/node_c<connections>.txt
 
 Outputs:
@@ -23,7 +23,7 @@ Tips:
 - Generate inputs like:
     mkdir -p results
     for c in 10 25 50 100 200 400 800 1000; do
-      wrk -t12 -c"$c" -d30s --latency "http://localhost:$BUN_PORT/no" | tee "results/bun_c${c}.txt"
+      wrk -t12 -c"$c" -d30s --latency "http://localhost:$PURE_NODE_PORT/no" | tee "results/pure_node_c${c}.txt"
     done
     for c in 10 25 50 100 200 400 800 1000; do
       wrk -t12 -c"$c" -d30s --latency "http://localhost:$NODE_PORT/no" | tee "results/node_c${c}.txt"
@@ -167,12 +167,12 @@ def _plot_metric(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Plot wrk results for bun vs node")
+    parser = argparse.ArgumentParser(description="Plot wrk results for pure node vs express")
     parser.add_argument(
         "--results-dir", default="results", help="Directory with wrk outputs"
     )
     parser.add_argument(
-        "--bun-prefix", default="bun", help="Filename prefix for bun results"
+        "--pure-node-prefix", default="pure_node", help="Filename prefix for pure node results"
     )
     parser.add_argument(
         "--node-prefix", default="node", help="Filename prefix for node results"
@@ -183,15 +183,15 @@ def main() -> int:
 
     args = parser.parse_args()
 
-    bun = load_series(args.results_dir, args.bun_prefix)
+    pure_node = load_series(args.results_dir, args.pure_node_prefix)
     node = load_series(args.results_dir, args.node_prefix)
 
-    if not bun and not node:
+    if not pure_node and not node:
         raise SystemExit(
-            f"No results found in '{args.results_dir}'. Expected files like '{args.bun_prefix}_c1000.txt'."
+            f"No results found in '{args.results_dir}'. Expected files like '{args.pure_node_prefix}_c1000.txt'."
         )
 
-    series = {"bun": bun, "node": node}
+    series = {"pure_node": pure_node, "node": node}
     xlog = not args.no_xlog
 
     _plot_metric(
@@ -212,7 +212,7 @@ def main() -> int:
     )
 
     # Optional: connect errors (useful to detect client-side saturation)
-    if any(r.connect_errors for r in bun) or any(r.connect_errors for r in node):
+    if any(r.connect_errors for r in pure_node) or any(r.connect_errors for r in node):
         _plot_metric(
             series,
             "connect_errors",

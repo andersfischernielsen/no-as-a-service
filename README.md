@@ -1,4 +1,4 @@
-# No-as-a-Service (in Bun)
+# No-as-a-Service (in pure Node)
 
 Ever needed a graceful and quick way to say “no”?
 
@@ -30,10 +30,10 @@ Rate limited to 120 requests per minute, per IP.
 
 ```sh
 cd no-as-a-service
-bun install
-bun start
+npm install
+npm run start
 # or
-PORT=5000 bun start
+PORT=5000 npm run start
 ```
 
 The API will be live at:
@@ -53,11 +53,11 @@ All benchmarks have been run with an increasing number of connections for 30 sec
 | ----------------------------------------------------------- | ------------------------------------------- |
 | ![p99 latency](./benchmarks/p99_latency_vs_connections.png) | ![RPS](./benchmarks/rps_vs_connections.png) |
 
-`bun`:
+Pure `node`:
 
 ```
-$ wrk -t12 -c1000 -d30s --latency http://localhost:$BUN_PORT/no
-Running 30s test @ http://localhost:$BUN_PORT/no
+$ wrk -t12 -c1000 -d30s --latency http://localhost:$PURE_NODE_PORT/no
+Running 30s test @ http://localhost:$PURE_NODE_PORT/no
   12 threads and 1000 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     1.62ms   81.75us   5.61ms   92.17%
@@ -99,7 +99,7 @@ Transfer/sec:     16.58MB
 
 ```
 no-as-a-service/
-├── index.ts            # Bun API
+├── index.ts            # API
 ├── rate-limiter.ts     # Rate limiter
 ├── reasons.json        # 1000+ universal rejection reasons
 ├── package.json        # Package configuration

@@ -1,29 +1,36 @@
-import { rateLimiter } from "./rate-limiter";
-import reasons from "./reasons.json";
+import { rateLimiter } from "./rate-limiter.ts";
+import reasons from "./reasons.json" with { type: "json" };
+import { createServer } from "node:http";
 
 const limiter = rateLimiter();
-const error = "Too many requests, please try again later. (120 reqs/min/IP)";
-
-const server = Bun.serve({
-  port: process.env.PORT ?? 3000,
-  routes: {
-    "/no": (req, server) => {
-      const ip = server.requestIP(req)?.address ?? "unknown";
-
-      if (!limiter.get(ip)) {
-        return Response.json({ error }, { status: 429 });
-      }
-
-      const reason = reasons[Math.floor(Math.random() * reasons.length)];
-      return Response.json({ reason });
-    },
-  },
+const error = JSON.stringify({
+  error: "Too many requests, please try again later. (120 reqs/min/IP)",
 });
+const port = process.env.PORT ?? 3000;
 
-console.log(`No-as-a-Service is running on port ${server.port}`);
+const server = createServer((req, res) => {
+  if (req.url !== "/no") {
+    res.statusCode = 404;
+    res.end();
+    return;
+  }
+
+  const ip = req.socket.remoteAddress ?? "unknown";
+  if (!limiter.get(ip)) {
+    res.statusCode = 429;
+    res.end(error);
+    return;
+  }
+
+  const reason = reasons[Math.floor(Math.random() * reasons.length)];
+  res.end(JSON.stringify({ reason }));
+  return;
+}).listen(port);
+
+console.log(`No-as-a-Service is running on port ${port}`);
 
 const shutdown = () => {
-  server.stop();
+  server.close();
   process.exit(0);
 };
 

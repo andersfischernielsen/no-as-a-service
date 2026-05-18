@@ -1,11 +1,11 @@
-FROM oven/bun
+FROM node:26-alpine
 
-USER bun
+USER node
 WORKDIR /api
 COPY package.json /api
-RUN bun install
+RUN npm install
 
 COPY index.ts rate-limiter.ts reasons.json /api/
 
 EXPOSE 3000
-ENTRYPOINT [ "bun", "run", "/api/index.ts" ]
+ENTRYPOINT [ "node", "/api/index.ts" ]

@@ -1,12 +1,11 @@
 {
-  "image": "oven/bun:alpine",
+  "image": "oven/node:alpine",
   "mounts": [
     "type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh"
   ],
   "customizations": {
     "vscode": {
-      "extensions": [
-      ]
+      "extensions": []
     }
   },
   "features": {
