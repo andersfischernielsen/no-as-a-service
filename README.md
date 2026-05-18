@@ -10,6 +10,10 @@ Built for humans, excuses, humor, and speed.
 
 ## API
 
+```
+https://isitafi.sh/no
+```
+
 **Base URL**
 
 ```sh
