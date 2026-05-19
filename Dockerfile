@@ -3,7 +3,7 @@ FROM node:26-alpine
 USER node
 WORKDIR /api
 COPY package.json /api
-RUN npm install
+RUN npm install --ignore-scripts
 
 COPY index.ts rate-limiter.ts reasons.json /api/
 
