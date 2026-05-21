@@ -1,18 +1,27 @@
 {
   "name": "no-as-service",
   "version": "1.0.0",
-  "type": "module",
+  "private": true,
   "description": "A lightweight API that returns random rejection or no reasons.",
+  "license": "MIT",
+  "author": "hotheadhacker",
+  "type": "module",
   "main": "index.ts",
   "scripts": {
-    "start": "node index.ts"
+    "start": "node index.ts",
+    "typecheck": "tsgo --noEmit",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "build:docker": "docker build ."
   },
-  "author": "hotheadhacker",
-  "license": "MIT",
   "devDependencies": {
-    "@types/node": "^25.9.0"
+    "@types/node": "^25.9.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260519.1",
+    "oxfmt": "^0.51.0",
+    "oxlint": "^1.66.0"
   },
-  "private": true,
   "peerDependencies": {
     "typescript": "^6"
   }
